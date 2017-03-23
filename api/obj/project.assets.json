@@ -10320,16 +10320,16 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mikes/Projects/marqueone/TimeAndMaterials/api/TimeAndMaterials.csproj",
+      "projectUniqueName": "/Users/mikes/Projects/marqueone/time-and-materials/api/TimeAndMaterials.csproj",
       "projectName": "Marqueone.TimeAndMaterials.Api",
-      "projectPath": "/Users/mikes/Projects/marqueone/TimeAndMaterials/api/TimeAndMaterials.csproj",
-      "outputPath": "/Users/mikes/Projects/marqueone/TimeAndMaterials/api/obj/",
+      "projectPath": "/Users/mikes/Projects/marqueone/time-and-materials/api/TimeAndMaterials.csproj",
+      "outputPath": "/Users/mikes/Projects/marqueone/time-and-materials/api/obj/",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
       ],
       "files": {
-        "lib/netcoreapp1.1/Marqueone.TimeAndMaterials.Api.dll": "/Users/mikes/Projects/marqueone/TimeAndMaterials/api/bin/placeholder/netcoreapp1.1/Marqueone.TimeAndMaterials.Api.dll"
+        "lib/netcoreapp1.1/Marqueone.TimeAndMaterials.Api.dll": "/Users/mikes/Projects/marqueone/time-and-materials/api/bin/placeholder/netcoreapp1.1/Marqueone.TimeAndMaterials.Api.dll"
       },
       "frameworks": {
         "netcoreapp1.1": {
