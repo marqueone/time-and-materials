@@ -50,3 +50,5 @@ artifacts/
 # SQL Server files
 *.mdf
 *.ldf
+
+api/bin
