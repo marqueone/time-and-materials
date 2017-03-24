@@ -51,4 +51,5 @@ artifacts/
 *.mdf
 *.ldf
 
-api/bin
+api/[Bb]in/
+api/[Oo]bj/
