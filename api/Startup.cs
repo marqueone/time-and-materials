@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Marqueone.TimeAndMaterials.Api.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace TimeAndMaterials
 {
@@ -27,7 +26,13 @@ namespace TimeAndMaterials
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TamContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("TamContext")));
+
             // Add framework services.
+            /*services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });*/
             services.AddMvc();
         }
 

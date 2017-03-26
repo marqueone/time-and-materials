@@ -20,7 +20,8 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Required]
         public decimal Cost { get; set; }
 
-        [NotMapped]
+        [Column]
+        [Required]
         public UnitOfMeasure UnitOfMeasure { get; set; }
     }
 }

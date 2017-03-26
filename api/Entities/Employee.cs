@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Marqueone.TimeAndMaterials.Api.Models.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -20,8 +21,7 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Required]
         [MaxLength(32)]
         public string LastName { get; set; }
-
-        [NotMapped]
-        public IEnumerable<Trade> Trades { get; set; }
+        
+        public virtual IList<EmployeeTrade> Trades { get; set; }
     }
 }
