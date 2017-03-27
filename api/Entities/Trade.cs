@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Marqueone.TimeAndMaterials.Api.Models.Relationships;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -25,6 +25,6 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Required]
         public bool IsActive { get; set; }
 
-        public IList<EmployeeTrade> Employees { get; set; }
+        public ICollection<EmployeeTrade> EmployeeTrades { get; set; }
     }
 }

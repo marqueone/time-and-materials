@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Marqueone.TimeAndMaterials.Api.DataAccess;
 using Marqueone.TimeAndMaterials.Api.Entities;
-using Marqueone.TimeAndMaterials.Api.Models.Relationships;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,7 +34,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
             if(Employees.Count() == 0)
             {
-                Employees.Add(new Employee { FirstName = "Mike", LastName = "Sears"});
+                Employees.Add(new Employee { FirstName = "Mike", LastName = "Sears" });
                 Employees.Add(new Employee { FirstName = "James", LastName = "Bond"});
 
                 _context.SaveChanges();
@@ -42,7 +42,10 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
             if(EmployeeTrades.Count() == 0)
             {
-                EmployeeTrades.Add(new EmployeeTrade { EmployeeId = 1, TradeId = 1});
+                EmployeeTrades.Add(new EmployeeTrade{ EmployeeId = 1, TradeId = 1 });
+                EmployeeTrades.Add(new EmployeeTrade{ EmployeeId = 1, TradeId = 2 });
+                EmployeeTrades.Add(new EmployeeTrade{ EmployeeId = 1, TradeId = 3 });
+
                 _context.SaveChanges();
             }
         }
@@ -62,20 +65,14 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
         [Route("test2")]
         public IActionResult GetSingleEmployee()
         {
-            /*var employee =  (from e in Employees
-                            join et in EmployeeTrades on e.Id equals et.EmployeeId
-                            join t in Trades on et.TradeId equals t.Id
-                            where e.Id == 1
-                            select new Employee { Id = e.Id, FirstName = e.FirstName, LastName = e.LastName });*/
+            var employee = Employees
+                .Include(e => e.EmployeeTrades)
+                .Single(e => e.Id == 1);
 
-            //var employee = Employees.Single(e => e.Id == 1);
-            //var employee = Trades.ToList();
-            var employee = EmployeeTrades
-            //.Include(t => t.Trade)
-            .Include(e => e.Employee)
-            .Single(e => e.EmployeeId == 1);
-
-            return Json(employee);
+            var result = employee.ConvertToEmployee();
+            _logger.LogDebug(Json(result).ToString());
+            
+            return Json(result);
         }
     }
 }

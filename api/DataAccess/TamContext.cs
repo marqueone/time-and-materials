@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Marqueone.TimeAndMaterials.Api.Entities;
-using Marqueone.TimeAndMaterials.Api.Models.Relationships;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.DataAccess
 {
@@ -23,8 +23,8 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess
     public DbSet<UnitOfMeasure> UnitsOfMeasure { get; set; }
     public DbSet<WorkOrder> WorkOrders { get; set; }
 
-    //-- joining reference objects
-    public DbSet<EmployeeTrade> EmployeeTrades { get; set; }
+    //-- joining Relationships
+    internal DbSet<EmployeeTrade> EmployeeTrades { get; set; }
 
     ILogger<TamContext> _logger;
 
@@ -35,6 +35,18 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+      builder.Entity<EmployeeTrade>()
+        .HasKey(bc => new { bc.EmployeeId, bc.TradeId });
+
+      builder.Entity<EmployeeTrade>()
+          .HasOne(bc => bc.Employee)
+          .WithMany(b => b.EmployeeTrades)
+          .HasForeignKey(bc => bc.EmployeeId);
+
+      builder.Entity<EmployeeTrade>()
+          .HasOne(bc => bc.Trade)
+          .WithMany(c => c.EmployeeTrades)
+          .HasForeignKey(bc => bc.TradeId);
 
       base.OnModelCreating(builder);
     }

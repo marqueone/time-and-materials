@@ -51,6 +51,8 @@ artifacts/
 *.mdf
 *.ldf
 
+.DS_Store
+
 api/[Bb]in/
 api/[Oo]bj/
 api/Migrations/
