@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -12,17 +13,14 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         public int Id { get; set; }
 
         [Column]
-        [Required]
-        public int ProjectId { get; set; }
-
-        [Column]
+        [MaxLength(24)]
         [Required]
         public string WorkOrderId { get; set; }
 
-        [NotMapped]
-        public IEnumerable<TimeEntry> TimeEntries { get; set; }
+        public virtual Project Project { get; set; }
 
-        [NotMapped]
-        public IEnumerable<Material> Materials { get; set; }
+        public virtual IList<TimeEntry> TimeEntries { get; set; }
+
+        public virtual IList<MaterialWorkOrder> MaterialWorkOrders { get; set; }
     }
 }

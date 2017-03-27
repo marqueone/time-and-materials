@@ -17,14 +17,11 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [MaxLength(64)]
         public string Name { get; set; }
 
-        [NotMapped]
-        public IEnumerable<Address> Addresses { get; set; }
+        public virtual IEnumerable<Address> Addresses { get; set; }
 
-        [NotMapped]
-        public IEnumerable<Project> Projects { get; set; }
+        public virtual IEnumerable<Project> Projects { get; set; }
 
-        [NotMapped]
-        public IEnumerable<Invoice> Invoices { get; set; }
+        public virtual IEnumerable<Invoice> Invoices { get; set; }
 
         [Column]
         public DateTime DateAdded { get; set; }

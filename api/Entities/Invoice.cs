@@ -25,16 +25,11 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Required]
         public DateTime DueDate { get; set; }
 
-        [NotMapped]
-        public IEnumerable<WorkOrder> WorkOrders { get; set; }
+        public virtual IList<WorkOrder> WorkOrders { get; set; }
 
         [Column]
         [Required]
         public Address BillingAddress { get; set; }
-
-        [Column]
-        [Required]
-        public int CompanyId { get; set; }
 
         [Column]
         public bool IsPaid { get; set; }

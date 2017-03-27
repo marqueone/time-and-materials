@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 using Marqueone.TimeAndMaterials.Api.Models;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
@@ -36,12 +37,5 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Column]
         [Required]
         public bool IsComplete { get; set; }
-
-        [Column]
-        [Required]
-        public int CompanyId { get; set; }
-
-        [NotMapped]
-        public IEnumerable<WorkOrder> WorkOrders { get; set; }
     }
 }

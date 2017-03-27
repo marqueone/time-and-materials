@@ -25,6 +25,7 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess
 
     //-- joining Relationships
     internal DbSet<EmployeeTrade> EmployeeTrades { get; set; }
+    internal DbSet<MaterialWorkOrder> MaterialWorkOrders { get; set; }
 
     ILogger<TamContext> _logger;
 
@@ -35,18 +36,33 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+      //-- employee <--> trade
       builder.Entity<EmployeeTrade>()
-        .HasKey(bc => new { bc.EmployeeId, bc.TradeId });
+        .HasKey(et => new { et.EmployeeId, et.TradeId });
 
       builder.Entity<EmployeeTrade>()
-          .HasOne(bc => bc.Employee)
-          .WithMany(b => b.EmployeeTrades)
-          .HasForeignKey(bc => bc.EmployeeId);
+          .HasOne(et => et.Employee)
+          .WithMany(et => et.EmployeeTrades)
+          .HasForeignKey(et => et.EmployeeId);
 
       builder.Entity<EmployeeTrade>()
-          .HasOne(bc => bc.Trade)
-          .WithMany(c => c.EmployeeTrades)
-          .HasForeignKey(bc => bc.TradeId);
+          .HasOne(et => et.Trade)
+          .WithMany(et => et.EmployeeTrades)
+          .HasForeignKey(et => et.TradeId);
+
+      //-- project <--> workorder 
+      builder.Entity<MaterialWorkOrder>()
+        .HasKey(et => new { et.MaterialId, et.WorkOrderId });
+
+      builder.Entity<MaterialWorkOrder>()
+          .HasOne(et => et.Material)
+          .WithMany(et => et.MaterialWorkOrders)
+          .HasForeignKey(et => et.MaterialId);
+
+      builder.Entity<MaterialWorkOrder>()
+          .HasOne(et => et.WorkOrder)
+          .WithMany(et => et.MaterialWorkOrders)
+          .HasForeignKey(et => et.WorkOrderId);
 
       base.OnModelCreating(builder);
     }

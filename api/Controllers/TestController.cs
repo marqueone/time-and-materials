@@ -18,6 +18,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
         private TamContext _context { get; set; }
         private DbSet<Employee> Employees => _context.Employees;
         private DbSet<Trade> Trades => _context.Trades;
+        private DbSet<ContactMethod> ContactMethods => _context.ContactMethods;
         private DbSet<EmployeeTrade> EmployeeTrades => _context.EmployeeTrades;
 
         public TestController(TamContext context, ILogger<TestController> logger)
@@ -66,12 +67,12 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
         public IActionResult GetSingleEmployee()
         {
             var employee = Employees
-                .Include(e => e.EmployeeTrades)
-                .Single(e => e.Id == 1);
+                            .Include("EmployeeTrades.Employee")
+                            .Include("EmployeeTrades.Trade")
+                            .Single(e => e.Id == 1);
 
             var result = employee.ConvertToEmployee();
-            _logger.LogDebug(Json(result).ToString());
-            
+
             return Json(result);
         }
     }

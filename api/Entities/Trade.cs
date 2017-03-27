@@ -25,6 +25,6 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Required]
         public bool IsActive { get; set; }
 
-        public ICollection<EmployeeTrade> EmployeeTrades { get; set; }
+        public virtual IList<EmployeeTrade> EmployeeTrades { get; set; }
     }
 }

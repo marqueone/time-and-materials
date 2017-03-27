@@ -21,10 +21,6 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [MaxLength(64)]
         public string LastName { get; set; }
 
-        [NotMapped]
         public IEnumerable<ContactMethod> Contacts { get; set; }
-
-        [Column]
-        public int CompanyId { get; set; }
     }
 }

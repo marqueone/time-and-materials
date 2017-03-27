@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Marqueone.TimeAndMaterials.Api.Entities.Abstract;
+using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -23,5 +25,7 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Column]
         [Required]
         public UnitOfMeasure UnitOfMeasure { get; set; }
+
+        public virtual IList<MaterialWorkOrder> MaterialWorkOrders { get; set; }
     }
 }
