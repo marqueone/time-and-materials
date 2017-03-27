@@ -31,7 +31,7 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         public virtual IList<EmployeeTrade> EmployeeTrades { get; set; }
         public virtual IList<ContactMethod> Contacts { get; set; }
 
-        public Transform.Employee ConvertToEmployee()
+        public Transform.Employee ToTransform()
         {
             var transform = new Transform.Employee
             {

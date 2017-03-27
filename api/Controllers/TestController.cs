@@ -71,7 +71,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                             .Include("EmployeeTrades.Trade")
                             .Single(e => e.Id == 1);
 
-            var result = employee.ConvertToEmployee();
+            var result = employee.ToTransform();
 
             return Json(result);
         }

@@ -50,7 +50,7 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess
           .WithMany(et => et.EmployeeTrades)
           .HasForeignKey(et => et.TradeId);
 
-      //-- project <--> workorder 
+      //-- material <--> workorder 
       builder.Entity<MaterialWorkOrder>()
         .HasKey(et => new { et.MaterialId, et.WorkOrderId });
 

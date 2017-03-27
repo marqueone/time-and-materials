@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Marqueone.TimeAndMaterials.Api.Entities.Abstract;
 using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
+using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -27,5 +28,16 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         public UnitOfMeasure UnitOfMeasure { get; set; }
 
         public virtual IList<MaterialWorkOrder> MaterialWorkOrders { get; set; }
+
+        public Transform.Material ToTransform()
+        {
+            return new Transform.Material
+            {
+                Id = Id,
+                Name = Name, 
+                Cost = Cost,
+                UnitOfMeasure = UnitOfMeasure.ToTransform()
+            };
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Marqueone.TimeAndMaterials.Api.Models;
+using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {
@@ -24,5 +25,16 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Column]
         [Required]
         public UnitType UnitType { get; set; }
+
+        public Transform.UnitOfMeasure ToTransform()
+        {
+            return new Transform.UnitOfMeasure
+            {
+                Id = Id,
+                Name = Name, 
+                Value = Value, 
+                UnitType = UnitType
+            };
+        }
     }
 }

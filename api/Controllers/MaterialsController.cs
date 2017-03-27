@@ -1,40 +1,37 @@
-using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Marqueone.TimeAndMaterials.Api.DataAccess;
+using Marqueone.TimeAndMaterials.Api.DataAccess.Services;
+using Marqueone.TimeAndMaterials.Api.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Marqueone.TimeAndMaterials.Api.Controllers
 {
 
-  [Route("_api/[controller]")]
-  public class MaterialController : Controller
-  {
-
-    ILogger<MaterialController> _logger;
-
-    public MaterialController(ILogger<MaterialController> logger)
+    [Route("_api/[controller]")]
+    public class MaterialController : Controller
     {
-      _logger = logger;
-    }
+        private TamContext _context { get; set; }
+        private ILogger<MaterialController> _logger;
 
-    [HttpGet]
-    [Route("derp")]
-    public JsonResult Derp(){
-      return Json("derp");
-    }
+        private MaterialService _materials { get; set; }
 
-    [HttpGet]
-    public IActionResult Get()
-    {
-      try
-      {
-        return Json("derp");
-      }
-      catch (Exception)
-      {
-        _logger.LogError("Failed to execute GET");
-        return BadRequest();
-      }
+        public MaterialController(ILogger<MaterialController> logger,
+                                  TamContext context,
+                                  MaterialService service)
+        {
+            _context = context;
+            _logger = logger;
+            _materials = service;
+        }
+
+        [HttpGet]
+        [Route("materials")]
+        public async Task<IList<Material>> GetMaterials()
+        {
+            return await _materials.GetMaterials();
+        }
     }
-  }
 }
