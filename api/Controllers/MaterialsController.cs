@@ -12,14 +12,14 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
     [Route("_api/[controller]")]
     [Produces("application/json")]
-    public class MaterialController : Controller
+    public class MaterialsController : Controller
     {
         private TamContext _context { get; }
-        private ILogger<MaterialController> _logger;
+        private ILogger<MaterialsController> _logger;
 
         private MaterialService _materials { get; set; }
 
-        public MaterialController(ILogger<MaterialController> logger,
+        public MaterialsController(ILogger<MaterialsController> logger,
                                   TamContext context,
                                   MaterialService materialService)
         {
@@ -122,7 +122,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                                                              unitOfMeasure: model.UnitOfMeasure);
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to update Material: {model.Name}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to update Material: {model.Name}", Status = 400 });
                 }
 
                 return Ok();
@@ -143,15 +143,15 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
-                  return StatusCode(400, new { Message = $"Invalid id provided", Status = 400});
+                    return StatusCode(400, new { Message = $"Invalid id provided", Status = 400 });
                 }
 
                 var result = await _materials.DeleteMaterial(id: id);
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to delete Material with id: {id}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to delete Material with id: {id}", Status = 400 });
                 }
 
                 return Ok(id);
@@ -161,8 +161,146 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
 
-                return StatusCode(500, new { Message = ex.Message, Status = 500});
+                return StatusCode(500, new { Message = ex.Message, Status = 500 });
             }
         }
+
+        [HttpGet]
+        [Route("units")]
+        public async Task<IActionResult> GetUnitsOfMeasure()
+        {
+            try
+            {
+                return Ok(await _materials.GetUnitsOfMeasure());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("units/by-id/{id}")]
+        public async Task<IActionResult> GetUnitById(int id)
+        {
+            try
+            {
+                return Ok(await _materials.GetUnitOfMeasureById(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("units/by-type/{type}")]
+        public async Task<IActionResult> GetUnitsByType(UnitType type)
+        {
+            try
+            {
+                return Ok(await _materials.GetUnitsOfMeasureByType(type));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("units/add")]
+        public async Task<IActionResult> AddUnitsOfMeasure([FromBody]NewUnitOfMeasureViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                await _materials.AddUnitOfMeasure(name: model.Name,
+                                                 value: model.Value,
+                                                 unitType: model.UnitType);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("units/update")]
+        public async Task<IActionResult> UpdateUnitOfMeasure([FromBody] UpdateUnitOfMeasureViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                var result = await _materials.UpdateUnitOfMeasure(id: model.Id,
+                                                                  name: model.Name,
+                                                                  value: model.Value,
+                                                                  unitType: model.UnitType);
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to update UnitOfMeasure: {model.Name}", Status = 400 });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("units/delete/{id}")]
+        [Produces("application/json")]
+        public async Task<IActionResult> DeleteUnitOfMeasure(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    return StatusCode(400, new { Message = $"Invalid id provided", Status = 400 });
+                }
+
+                var result = await _materials.DeleteUnitOfMeasure(id: id);
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to delete UnitOfMeasure with id: {id}", Status = 400 });
+                }
+
+                return Ok(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500, new { Message = ex.Message, Status = 500 });
+            }
+        }
+
     }
 }

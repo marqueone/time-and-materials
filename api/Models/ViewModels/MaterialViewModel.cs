@@ -31,4 +31,19 @@ namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
         [Required]
         public int UnitOfMeasure { get; set; }
     }
+
+    public class NewUnitOfMeasureViewModel
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public UnitType UnitType { get; set; }
+    }
+
+    public class UpdateUnitOfMeasureViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set;}
+        public string Value { get; set; }
+        public UnitType UnitType { get; set; }
+    }
 }
