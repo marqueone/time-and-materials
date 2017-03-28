@@ -31,6 +31,7 @@ namespace TimeAndMaterials
                 options.UseSqlServer(Configuration.GetConnectionString("TamContext")));
                 
             services.AddScoped<MaterialService>();
+            services.AddScoped<ServicesService>();
             
             // Add framework services.
             /*services.AddMvc().AddJsonOptions(options => {

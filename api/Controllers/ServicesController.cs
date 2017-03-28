@@ -12,29 +12,29 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
     [Route("_api/[controller]")]
     [Produces("application/json")]
-    public class MaterialController : Controller
+    public class ServicesController : Controller
     {
         private TamContext _context { get; }
-        private ILogger<MaterialController> _logger;
+        private ILogger<ServicesController> _logger;
 
-        private MaterialService _materials { get; set; }
+        private ServicesService _service { get; set; }
 
-        public MaterialController(ILogger<MaterialController> logger,
+        public ServicesController(ILogger<ServicesController> logger,
                                   TamContext context,
-                                  MaterialService materialService)
+                                  ServicesService service)
         {
             _context = context;
             _logger = logger;
-            _materials = materialService;
+            _service = service;
         }
 
         [HttpGet]
-        [Route("materials")]
-        public async Task<IActionResult> GetMaterials()
+        [Route("")]
+        public async Task<IActionResult> GetServices()
         {
             try
             {
-                return Ok(await _materials.GetMaterials());
+                return Ok(await _service.GetServices());
             }
             catch (Exception ex)
             {
@@ -47,28 +47,28 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
         [HttpGet]
         [Route("by-id/{id}")]
-        public async Task<IActionResult> GetMaterial(int id)
+        public async Task<IActionResult> GetService(int id)
         {
             try
             {
-                return Ok(await _materials.GetById(id));
+                return Ok(await _service.GetById(id));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
 
-                return StatusCode(500);
+                return StatusCode(500, new { Message = ex.Message, Status = 500});
             }
         }
 
         [HttpGet]
         [Route("by-type/{type}")]
-        public async Task<IActionResult> GetByUnitType(UnitType type)
+        public async Task<IActionResult> GetByRateType(RateTypes type)
         {
             try
             {
-                return Ok(await _materials.GetByType(type));
+                return Ok(await _service.GetByType(type));
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add([FromBody]NewMaterialViewModel model)
+        public async Task<IActionResult> Add([FromBody]NewServiceViewModel model)
         {
             try
             {
@@ -90,9 +90,14 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                     return StatusCode(400, ModelState);
                 }
 
-                await _materials.AddMaterial(name: model.Name,
-                                      cost: model.Cost,
-                                      unitOfMeasure: model.UnitOfMeasure);
+                var result = await _service.Add(name: model.Name,
+                                          rateType: model.RateType,
+                                          rate: model.Rate);
+
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to add new Service: {model.Name}", Status = 400});
+                }
 
                 return Ok();
             }
@@ -107,7 +112,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] UpdateMaterialViewModel model)
+        public async Task<IActionResult> Update([FromBody] UpdateServiceViewModel model)
         {
             try
             {
@@ -116,13 +121,13 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                     return StatusCode(400, ModelState);
                 }
 
-                var result = await _materials.UpdateMaterial(id: model.Id,
-                                                             name: model.Name,
-                                                             cost: model.Cost,
-                                                             unitOfMeasure: model.UnitOfMeasure);
+                var result = await _service.Update(id: model.Id,
+                                                          name: model.Name,
+                                                          rateType: model.RateType,
+                                                          rate: model.Rate);
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to update Material: {model.Name}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to update Service: {model.Name}", Status = 400});
                 }
 
                 return Ok();
@@ -148,10 +153,10 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                   return StatusCode(400, new { Message = $"Invalid id provided", Status = 400});
                 }
 
-                var result = await _materials.DeleteMaterial(id: id);
+                var result = await _service.Delete(id: id);
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to delete Material with id: {id}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to delete Service with id: {id}", Status = 400});
                 }
 
                 return Ok(id);
