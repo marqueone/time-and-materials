@@ -45,6 +45,6 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
 
         [Column]
         [Required]
-        public AddressTypes AddressType { get; set; }
+        public AddressType AddressType { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 namespace Marqueone.TimeAndMaterials.Api.Models
 {
-    public enum AddressTypes : byte 
+    public enum AddressType : byte 
     {
         Primary,
         Billing,

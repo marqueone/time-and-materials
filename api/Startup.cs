@@ -33,7 +33,10 @@ namespace TimeAndMaterials
             services.AddScoped<MaterialService>();
             services.AddScoped<ServicesService>();
             services.AddScoped<EquipmentService>();
-            
+            services.AddScoped<AddressService>();
+            services.AddScoped<ContactService>();
+            services.AddScoped<EmployeeService>();
+                
             // Add framework services.
             /*services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
