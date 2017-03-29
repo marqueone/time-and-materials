@@ -242,5 +242,63 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                 return StatusCode(500, new { Message = ex.Message, Status = 500});
             }
         }
+
+        [HttpPost]
+        [Route("add/trade")]
+        public async Task<IActionResult> AddTrade([FromBody] AddEmployeeTradeViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                var result = await _service.AddEmployeeTrade(employeeId: model.EmployeeId, tradeId: model.TradeId);
+
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to add new Trade to Employee", Status = 400 });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("remove/trade")]
+        public async Task<IActionResult> RemoveTrade([FromBody] RemoveEmployeeTradeViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                var result = await _service.RemoveEmployeeTrade(employeeId: model.EmployeeId, tradeId: model.TradeId);
+
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to remove Trade from Employee", Status = 400 });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
     }
 }

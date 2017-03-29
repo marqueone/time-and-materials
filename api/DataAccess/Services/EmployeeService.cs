@@ -128,5 +128,29 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
 
             return false;
         }
+
+        internal async Task<bool> AddEmployeeTrade(int employeeId, int tradeId)
+        {
+            EmployeeTrades.Add(new EmployeeTrade 
+            { 
+                EmployeeId = employeeId, 
+                TradeId = tradeId 
+            });
+
+            return await _context.SaveChangesAsync() >= 0;
+        }
+
+        internal async Task<bool> RemoveEmployeeTrade(int employeeId, int tradeId)
+        {
+            var trade = await EmployeeTrades.SingleOrDefaultAsync(et => et.EmployeeId == employeeId && et.TradeId == tradeId);
+
+            if(trade != null)
+            {
+                EmployeeTrades.Remove(trade);
+                return await _context.SaveChangesAsync() >= 0;
+            }
+
+            return false;
+        }
     }
 }

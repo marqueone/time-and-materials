@@ -36,6 +36,8 @@ namespace TimeAndMaterials
             services.AddScoped<AddressService>();
             services.AddScoped<ContactService>();
             services.AddScoped<EmployeeService>();
+            services.AddScoped<ServicesService>();
+            services.AddScoped<TradeService>();
                 
             // Add framework services.
             /*services.AddMvc().AddJsonOptions(options => {

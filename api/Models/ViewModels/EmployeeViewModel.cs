@@ -35,4 +35,16 @@ namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
         public IList<ContactMethod> Contacts { get; set; }
         public IList<Trade> Trades { get; set; }
     }
+
+    public class AddEmployeeTradeViewModel 
+    {
+        public int EmployeeId { get; set; }
+        public int TradeId { get; set; }
+    }
+
+    public class RemoveEmployeeTradeViewModel 
+    {
+        public int EmployeeId { get; set; }
+        public int TradeId { get; set; }
+    }
 }
