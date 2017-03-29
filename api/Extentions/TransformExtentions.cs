@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Marqueone.TimeAndMaterials.Api.Entities;
 using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
@@ -83,8 +84,8 @@ namespace Marqueone.TimeAndMaterials.Api.Extentions
             {
                 Id = input.Id,
                 Name = input.Name,
-                Addresses = input.Addresses.ToList(),
-                Projects = input.Projects?.Select(p => p.ToProject()).ToList(),
+                Addresses = input.Addresses?.ToList() ?? new List<Address>(),
+                Projects = input.Projects?.Select(p => p.ToProject()).ToList() ?? new List<Transform.Project>(),
                 DateAdded = input.DateAdded
             };
         }

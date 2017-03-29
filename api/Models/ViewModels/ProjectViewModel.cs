@@ -10,6 +10,7 @@ namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public DateTime ProjectedEnd { get; set; }
+        public int CompanyId { get; set; }
     }
 
     public class UpdateProjectViewModel 

@@ -19,6 +19,7 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
         private DbSet<WorkOrder> WorkOrders => _context.WorkOrders;
         private DbSet<TimeEntry> TimeEntries => _context.TimeEntries;
         private DbSet<MaterialWorkOrder> MaterialWorkOrders => _context.MaterialWorkOrders;
+        private DbSet<Company> Companies => _context.Companies;
 
         public ProjectService(TamContext context)
         {
@@ -48,19 +49,30 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
             return await Projects.Where(p => p.ProjectType == type).Select(p => p.ToProject()).ToListAsync();
         }
 
-        internal async Task<bool> Add(string name, ProjectType projectType, DateTime start, DateTime end, DateTime projectedEnd)
+        internal async Task<bool> Add(int companyId, string name, ProjectType projectType, DateTime start, DateTime end, DateTime projectedEnd)
         {
-            Projects.Add(new Project
-            {
-                Name = name,
-                ProjectType = projectType,
-                Start = start,
-                End = end,
-                ProjectedEnd = projectedEnd,
-                IsComplete = false
-            });
+            var company = await Companies.SingleOrDefaultAsync(c => c.Id == companyId);
 
-            return await _context.SaveChangesAsync() >= 0;
+            /*if (company != null)
+            {
+                var project = new Project
+                {
+                    Name = name,
+                    ProjectType = projectType,
+                    Start = start,
+                    End = end,
+                    ProjectedEnd = projectedEnd,
+                    IsComplete = false
+                };
+
+                Projects.Add(project);
+                await _context.SaveChangesAsync();
+
+                company.Projects.Add(project);
+                return await _context.SaveChangesAsync() >= 0;
+            }*/
+
+            return false;
         }
 
         internal async Task<bool> Update(int id, string name, ProjectType projectType, DateTime start, DateTime end, DateTime projectedEnd, bool isComplete)
@@ -101,15 +113,15 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
 
         internal async Task<bool> AddProjectWorkOrder(string workOrderId, int projectId)
         {
-            WorkOrders.Add(new WorkOrder 
-            { 
+            WorkOrders.Add(new WorkOrder
+            {
                 WorkOrderId = workOrderId,
                 Project = Projects.Single(p => p.Id == projectId)
             });
 
             return await _context.SaveChangesAsync() >= 0;
         }
-        
+
         #endregion
     }
 }

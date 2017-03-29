@@ -58,7 +58,7 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
 
-                return StatusCode(500, new { Message = ex.Message, Status = 500});
+                return StatusCode(500, new { Message = ex.Message, Status = 500 });
             }
         }
 
@@ -90,17 +90,18 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                     return StatusCode(400, ModelState);
                 }
 
-                var result = await _service.Add(name: model.Name,
-                                                projectType: model.ProjectType,  
+                var result = await _service.Add(companyId: model.CompanyId, 
+                                                name: model.Name,
+                                                projectType: model.ProjectType,
                                                 start: model.Start,
                                                 end: model.End,
                                                 projectedEnd: model.ProjectedEnd);
 
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to add new Project: {model.Name}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to add new Project: {model.Name}", Status = 400 });
                 }
-
+            
                 return Ok();
             }
             catch (Exception ex)
@@ -125,14 +126,14 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
                 var result = await _service.Update(id: model.Id,
                                                     name: model.Name,
-                                                    projectType: model.ProjectType,  
+                                                    projectType: model.ProjectType,
                                                     start: model.Start,
                                                     end: model.End,
                                                     projectedEnd: model.ProjectedEnd,
                                                     isComplete: model.IsComplete);
                 if (!result)
                 {
-                    return StatusCode(400, new { Message = $"Unable to update Project: {model.Name}", Status = 400});
+                    return StatusCode(400, new { Message = $"Unable to update Project: {model.Name}", Status = 400 });
                 }
 
                 return Ok();
@@ -145,5 +146,88 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        #region work orders
+        [HttpGet]
+        [Route("workorders")]
+        public async Task<IActionResult> GetWorkOrders()
+        {
+            try
+            {
+                return Ok(await _service.GetWorkOrders());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("workorders/by-id/{id}")]
+        public async Task<IActionResult> GetWorkOrdersById(int id)
+        {
+            try
+            {
+                return Ok(await _service.GetWorkOrdersById(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("workorders/by-project/{id}")]
+        public async Task<IActionResult> GetWorkOrdersByProject(int id)
+        {
+            try
+            {
+                return Ok(await _service.GetWorkOrderByProjectId(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("workorder/add")]
+        public async Task<IActionResult> AddWorkOrder([FromBody] NewWorkOrderViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                var result = await _service.AddProjectWorkOrder(workOrderId: model.WorkOrderId,
+                                                projectId: model.ProjectId);
+
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to add new WorkOrder: {model.WorkOrderId} to Project: {model.ProjectId}", Status = 400 });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+        #endregion
     }
 }
