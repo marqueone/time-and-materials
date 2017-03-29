@@ -49,11 +49,25 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
             return await Projects.Where(p => p.ProjectType == type).Select(p => p.ToProject()).ToListAsync();
         }
 
+        internal async Task<IList<Transform.Project>> GetByCompany(int id)
+        {
+            var company = await Companies
+                                    .Include(c => c.Projects)
+                                    .Include(c => c.Addresses)
+                                    .SingleOrDefaultAsync(c => c.Id == id);
+            if(company != null)
+            {
+                return company.Projects?.Select(p => p.ToProject()).ToList() ?? new List<Transform.Project>();
+            }
+
+            return new List<Transform.Project>();
+        }
+
         internal async Task<bool> Add(int companyId, string name, ProjectType projectType, DateTime start, DateTime end, DateTime projectedEnd)
         {
             var company = await Companies.SingleOrDefaultAsync(c => c.Id == companyId);
 
-            /*if (company != null)
+            if (company != null)
             {
                 var project = new Project
                 {
@@ -68,9 +82,20 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
                 Projects.Add(project);
                 await _context.SaveChangesAsync();
 
-                company.Projects.Add(project);
+                if (company.Projects == null)
+                {
+                    company.Projects = new List<Project>
+                    {
+                        project
+                    };
+                }
+                else
+                {
+                    company.Projects.Add(project);
+                }
+
                 return await _context.SaveChangesAsync() >= 0;
-            }*/
+            }
 
             return false;
         }
@@ -120,6 +145,38 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
             });
 
             return await _context.SaveChangesAsync() >= 0;
+        }
+
+        internal async Task<bool> AddWorkOrderTime(int id, int employeeId, DateTime start, DateTime end, bool isWeekend, bool isHoliday, bool hasOverTime)
+        {
+            var workOrder = await WorkOrders.SingleOrDefaultAsync(wo => wo.Id == id);
+            if(workOrder != null)
+            {
+                var timeEntry = new TimeEntry
+                {
+                    EmployeeId = employeeId,
+                    Start = start,
+                    End = end,
+                    IsWeekEnd = isWeekend,
+                    IsHoliday = isHoliday,
+                    HasOverTime = hasOverTime
+                };
+                TimeEntries.Add(timeEntry);
+                
+                var result = await _context.SaveChangesAsync() >= 0;
+                if(result)
+                {
+                    if(workOrder.TimeEntries != null)
+                    {
+                        workOrder.TimeEntries.Add(timeEntry);
+                    } 
+                    {
+                        workOrder.TimeEntries = new List<TimeEntry>{ timeEntry };
+                    }
+                }
+            }
+
+            return false;
         }
 
         #endregion

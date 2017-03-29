@@ -37,8 +37,8 @@ namespace Marqueone.TimeAndMaterials.Api.Extentions
             {
                 Id = input.Id,
                 WorkOrderId = input.WorkOrderId,
-                TimeEntries = input.TimeEntries.Select(t => t.ToTimeEntry()).ToList(),
-                Materials = input.MaterialWorkOrders.Select(m => m.Material.ToMaterial()).ToList()
+                TimeEntries = input.TimeEntries?.Select(t => t.ToTimeEntry()).ToList() ?? new List<Transform.TimeEntry>(),
+                Materials = input.MaterialWorkOrders?.Select(m => m.Material.ToMaterial()).ToList() ?? new List<Transform.Material>()
             };
         }
 

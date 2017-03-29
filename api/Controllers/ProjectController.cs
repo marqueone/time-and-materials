@@ -47,11 +47,28 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
 
         [HttpGet]
         [Route("by-id/{id}")]
-        public async Task<IActionResult> GetEquipmentById(int id)
+        public async Task<IActionResult> GetProjectsById(int id)
         {
             try
             {
                 return Ok(await _service.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500, new { Message = ex.Message, Status = 500 });
+            }
+        }
+
+        [HttpGet]
+        [Route("by-company/{id}")]
+        public async Task<IActionResult> GetProjectsByCompanyId(int id)
+        {            
+            try
+            {
+                return Ok(await _service.GetByCompany(id));
             }
             catch (Exception ex)
             {
@@ -216,6 +233,41 @@ namespace Marqueone.TimeAndMaterials.Api.Controllers
                 if (!result)
                 {
                     return StatusCode(400, new { Message = $"Unable to add new WorkOrder: {model.WorkOrderId} to Project: {model.ProjectId}", Status = 400 });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("workorder/add/time")]
+        public async Task<IActionResult> AddWorkOrderTime([FromBody] NewTimeEntryViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(400, ModelState);
+                }
+
+                var result = await _service.AddWorkOrderTime(id: model.Id,
+                employeeId: model.EmployeeId,
+                start: model.Start,
+                end: model.End,
+                isWeekend: model.IsWeekend,
+                isHoliday: model.IsHoliday,
+                hasOverTime: model.HasOverTime);
+
+                if (!result)
+                {
+                    return StatusCode(400, new { Message = $"Unable to add new Time Entry for WorkOrder: {model.WorkOrderId}", Status = 400 });
                 }
 
                 return Ok();
