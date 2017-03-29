@@ -22,4 +22,10 @@ namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
         public DateTime ProjectedEnd { get; set; }
         public bool IsComplete { get; set; }
     }
+
+    public class NewWorkOrderViewModel
+    {
+        public string WorkOrderId { get; set; }
+        public int ProjectId { get; set; }
+    }
 }

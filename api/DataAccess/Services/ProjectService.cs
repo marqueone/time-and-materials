@@ -81,5 +81,35 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
 
             return false;
         }
+
+        #region workorders
+        internal async Task<IList<Transform.WorkOrder>> GetWorkOrders()
+        {
+            return await WorkOrders.Select(wo => wo.ToWorkOrder()).ToListAsync();
+        }
+
+        internal async Task<Transform.WorkOrder> GetWorkOrdersById(int id)
+        {
+            var workOrder = await WorkOrders.SingleAsync(wo => wo.Id == id);
+            return workOrder.ToWorkOrder();
+        }
+
+        internal async Task<IList<Transform.WorkOrder>> GetWorkOrderByProjectId(int id)
+        {
+            return await WorkOrders.Where(wo => wo.Project.Id == id).Select(wo => wo.ToWorkOrder()).ToListAsync();
+        }
+
+        internal async Task<bool> AddProjectWorkOrder(string workOrderId, int projectId)
+        {
+            WorkOrders.Add(new WorkOrder 
+            { 
+                WorkOrderId = workOrderId,
+                Project = Projects.Single(p => p.Id == projectId)
+            });
+
+            return await _context.SaveChangesAsync() >= 0;
+        }
+        
+        #endregion
     }
 }

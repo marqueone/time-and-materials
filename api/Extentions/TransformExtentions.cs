@@ -76,5 +76,17 @@ namespace Marqueone.TimeAndMaterials.Api.Extentions
                 UnitType = input.UnitType
             };
         }
+
+        public static Transform.Company ToCompany(this Company input)
+        {
+            return new Transform.Company
+            {
+                Id = input.Id,
+                Name = input.Name,
+                Addresses = input.Addresses.ToList(),
+                Projects = input.Projects?.Select(p => p.ToProject()).ToList(),
+                DateAdded = input.DateAdded
+            };
+        }
     }
 }

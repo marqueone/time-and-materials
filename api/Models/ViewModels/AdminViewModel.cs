@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Marqueone.TimeAndMaterials.Api.Entities;
 
 namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
 {
@@ -15,5 +17,12 @@ namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
         public string Name { get; set; }
         public decimal PayRate { get; set; }
         public bool IsActive { get; set; }
+    }
+
+    public class NewCompanyViewModel
+    {
+        public string Name { get; set; }
+        //public IList<Address> Addresses 
+        //{ get; set; }
     }
 }

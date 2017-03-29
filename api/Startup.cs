@@ -39,6 +39,7 @@ namespace TimeAndMaterials
             services.AddScoped<ServicesService>();
             services.AddScoped<TradeService>();
             services.AddScoped<ProjectService>();
+            services.AddScoped<CompanyService>();
             
             services.AddMvc();
         }
