@@ -5,6 +5,7 @@ using Marqueone.TimeAndMaterials.Api.Entities;
 using Marqueone.TimeAndMaterials.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
+using Marqueone.TimeAndMaterials.Api.Extentions;
 
 namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
 {
@@ -21,13 +22,13 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
 
         internal async Task<IList<Transform.Material>> GetMaterials()
         {
-            return (from item in await Materials.Include(u => u.UnitOfMeasure).ToListAsync() select item.ToTransform()).ToList();
+            return (from item in await Materials.Include(u => u.UnitOfMeasure).ToListAsync() select item.ToMaterial()).ToList();
         }
 
         internal async Task<Transform.Material> GetById(int id)
         {
             var material = await Materials.Include(u => u.UnitOfMeasure).SingleAsync(m => m.Id == id);
-            return material.ToTransform();
+            return material.ToMaterial();
         }
 
         internal async Task<IList<Transform.Material>> GetByType(UnitType type)
@@ -35,7 +36,7 @@ namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services
             var materials = await Materials.Include(u => u.UnitOfMeasure).ToListAsync();
             return (from item in materials
                     where item.UnitOfMeasure.UnitType == type
-                    select item.ToTransform()).ToList();
+                    select item.ToMaterial()).ToList();
         }
 
         internal async Task<int> AddMaterial(string name, decimal cost, int unitOfMeasure)

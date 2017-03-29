@@ -38,11 +38,8 @@ namespace TimeAndMaterials
             services.AddScoped<EmployeeService>();
             services.AddScoped<ServicesService>();
             services.AddScoped<TradeService>();
-                
-            // Add framework services.
-            /*services.AddMvc().AddJsonOptions(options => {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });*/
+            services.AddScoped<ProjectService>();
+            
             services.AddMvc();
         }
 

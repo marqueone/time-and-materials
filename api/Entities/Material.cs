@@ -28,16 +28,5 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         public UnitOfMeasure UnitOfMeasure { get; set; }
 
         public virtual IList<MaterialWorkOrder> MaterialWorkOrders { get; set; }
-
-        public Transform.Material ToTransform()
-        {
-            return new Transform.Material
-            {
-                Id = Id,
-                Name = Name, 
-                Cost = Cost,
-                UnitOfMeasure = UnitOfMeasure.ToTransform()
-            };
-        }
     }
 }

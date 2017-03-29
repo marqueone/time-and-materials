@@ -1,3 +1,4 @@
+using System.Linq;
 using Marqueone.TimeAndMaterials.Api.Entities;
 using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
 
@@ -34,7 +35,9 @@ namespace Marqueone.TimeAndMaterials.Api.Extentions
             return new Transform.WorkOrder
             {
                 Id = input.Id,
-                WorkOrderId = input.WorkOrderId
+                WorkOrderId = input.WorkOrderId,
+                TimeEntries = input.TimeEntries.Select(t => t.ToTimeEntry()).ToList(),
+                Materials = input.MaterialWorkOrders.Select(m => m.Material.ToMaterial()).ToList()
             };
         }
 
@@ -49,6 +52,28 @@ namespace Marqueone.TimeAndMaterials.Api.Extentions
                 IsHoliday = input.IsHoliday,
                 HasOverTime = input.HasOverTime,
                 IsWeekEnd = input.IsWeekEnd
+            };
+        }
+
+        public static Transform.Material ToMaterial(this Material input)
+        {
+            return new Transform.Material
+            {
+                Id = input.Id,
+                Name = input.Name,
+                Cost = input.Cost,
+                UnitOfMeasure = input.UnitOfMeasure.ToUnitOfMeasure()
+            };
+        }
+
+        public static Transform.UnitOfMeasure ToUnitOfMeasure(this UnitOfMeasure input)
+        {
+            return new Transform.UnitOfMeasure
+            {
+                Id = input.Id,
+                Name = input.Name, 
+                Value = input.Value, 
+                UnitType = input.UnitType
             };
         }
     }

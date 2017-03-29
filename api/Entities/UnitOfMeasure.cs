@@ -25,16 +25,5 @@ namespace Marqueone.TimeAndMaterials.Api.Entities
         [Column]
         [Required]
         public UnitType UnitType { get; set; }
-
-        public Transform.UnitOfMeasure ToTransform()
-        {
-            return new Transform.UnitOfMeasure
-            {
-                Id = Id,
-                Name = Name, 
-                Value = Value, 
-                UnitType = UnitType
-            };
-        }
     }
 }
