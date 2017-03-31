@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
 {
     public class NewEmployeeContactMethodViewModel

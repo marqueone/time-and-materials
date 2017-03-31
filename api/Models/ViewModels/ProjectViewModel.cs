@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
 {

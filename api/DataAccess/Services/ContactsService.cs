@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Marqueone.TimeAndMaterials.Api.Entities;
-using Marqueone.TimeAndMaterials.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Marqueone.TimeAndMaterials.Api.DataAccess.Services

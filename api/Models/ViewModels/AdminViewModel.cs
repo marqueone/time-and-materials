@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Marqueone.TimeAndMaterials.Api.Entities;
-
 namespace Marqueone.TimeAndMaterials.Api.Models.ViewModels
 {
     public class NewTradeViewModel

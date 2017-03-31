@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Marqueone.TimeAndMaterials.Api.Entities;
@@ -6,7 +5,7 @@ using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 
 namespace Marqueone.TimeAndMaterials.Api.DataAccess
 {
-  public class TamContext : DbContext
+    public class TamContext : DbContext
   {
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Company> Companies { get; set; }

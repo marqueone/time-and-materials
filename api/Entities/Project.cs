@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Marqueone.TimeAndMaterials.Api.Entities.Relationships;
 using Marqueone.TimeAndMaterials.Api.Models;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities

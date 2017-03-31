@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Marqueone.TimeAndMaterials.Api.Models;
-using Transform = Marqueone.TimeAndMaterials.Api.Models.Transforms;
 
 namespace Marqueone.TimeAndMaterials.Api.Entities
 {

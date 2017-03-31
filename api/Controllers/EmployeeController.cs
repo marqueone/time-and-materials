@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Marqueone.TimeAndMaterials.Api.DataAccess;
 using Marqueone.TimeAndMaterials.Api.DataAccess.Services;
-using Marqueone.TimeAndMaterials.Api.Models;
 using Marqueone.TimeAndMaterials.Api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
