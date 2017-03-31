@@ -56,3 +56,5 @@ artifacts/
 api/[Bb]in/
 api/[Oo]bj/
 api/Migrations/
+
+client/node_modules/
